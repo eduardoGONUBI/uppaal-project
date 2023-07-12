@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int[0,1] req1,req2;
+int[1,2] turn;</declaration>
+	<template>
+		<name x="5" y="5">mutex</name>
+		<parameter>const int[1,2] me, int[0,1] &amp;req_self, int[0,1] &amp;req_other</parameter>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-246" y="-102">
+			<name x="-280" y="-136">idle</name>
+		</location>
+		<location id="id1" x="-77" y="-102">
+			<name x="-87" y="-136">want</name>
+		</location>
+		<location id="id2" x="-246" y="33">
+			<name x="-272" y="-1">cs</name>
+		</location>
+		<location id="id3" x="-77" y="33">
+			<name x="-68" y="-1">wait</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id4">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-246" y="-68">req_self:=0</label>
+		</transition>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-195" y="84">req_other==0</label>
+			<nail x="-170" y="76"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-170" y="-17">turn==me</label>
+			<nail x="-178" y="-1"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-68" y="-59">turn:=(me==1?2:1)</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-204" y="-128">req_self:=1</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = mutex(1, req1, req2);
+P2 = mutex(2, req2, req1);
+// List one or more processes to be composed into a system.
+system P1, P2;</system>
+	<queries>
+		<query>
+			<formula>A[] not (P1.cs and P2.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-03-12 18:17:34 +0000">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (P2.cs and P1.cs)</formula>
+			<comment>esclusao mutua</comment>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:19:42 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>dealock</comment>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:19:54 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P1.cs</formula>
+			<comment>reachability</comment>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:20:38 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; P2.cs</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:22:42 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P1.idle imply P1.cs)</formula>
+			<comment>Utility</comment>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:21:29 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P2.idle imply P2.cs)</formula>
+			<comment>Utility</comment>
+			<result outcome="success" type="quality" timestamp="2023-06-28 17:21:48 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>

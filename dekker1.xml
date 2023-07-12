@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// This is a small adaptation by Frits Vaandrager of a model
+// made by Bart Meulenbroek
+
+
+bool 	flag[2] := {false, false};
+int	turn	:= 1;
+</declaration>
+	<template>
+		<name x="5" y="5">Process</name>
+		<parameter>const int pid</parameter>
+		<declaration>//Insert local declarations of clocks, variables and constants.</declaration>
+		<location id="id0" x="128" y="160">
+			<name x="40" y="136">remainder</name>
+		</location>
+		<location id="id1" x="256" y="160">
+			<name x="246" y="126">l1</name>
+		</location>
+		<location id="id2" x="384" y="32">
+			<name x="374" y="-2">l3</name>
+		</location>
+		<location id="id3" x="256" y="288">
+			<name x="272" y="296">critical_section</name>
+		</location>
+		<location id="id4" x="128" y="288">
+			<name x="118" y="254">l2</name>
+		</location>
+		<location id="id5" x="384" y="-96">
+			<name x="374" y="-130">l4</name>
+		</location>
+		<location id="id6" x="256" y="-96">
+			<name x="246" y="-130">l5</name>
+		</location>
+		<location id="id7" x="256" y="32">
+			<name x="246" y="-2">l6</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id8">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="144" y="136">flag[pid] = true</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="288" y="168">flag[1-pid] == true</label>
+			<nail x="384" y="160"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="264" y="208">flag[1-pid] == false</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="152" y="288">turn = 1-pid</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="8" y="208">flag[pid] = false</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="guard" x="392" y="-48">turn == 1-pid</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="280" y="40">turn == pid</label>
+		</transition>
+		<transition id="id15">
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="288" y="-128">flag[pid] = false</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="guard" x="176" y="-184">turn == 1-pid</label>
+			<nail x="256" y="-160"/>
+			<nail x="192" y="-160"/>
+			<nail x="192" y="-96"/>
+		</transition>
+		<transition id="id17">
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="168" y="-48">turn == pid</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id7"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="144" y="80">flag[pid] = true</label>
+		</transition>
+	</template>
+	<system>//Insert process assignments.
+P0 := Process(0);
+P1 := Process(1);
+//Edit system definition.
+system P0, P1;</system>
+	<queries>
+		<query>
+			<formula>A[] (P0.critical_section imply not P1.critical_section)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:23:31 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:24:35 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P1.remainder imply P1.critical_section)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:25:19 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P0.remainder imply P0.critical_section)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:25:31 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt;(P1.critical_section)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:26:50 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt;(P0.critical_section)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-10 15:26:58 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>

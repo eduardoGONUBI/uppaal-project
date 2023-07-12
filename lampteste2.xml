@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+const int N=4;
+typedef int[0,N-1] pid;
+int senha[N]={0,0,0,0};
+bool escolha[N]={false,false, false,false};
+clock x[N],y[N];
+
+int senhamax=0;
+
+bool compare(int a, int b) {
+  if (senha[a] &lt;= 100 &amp;&amp;  senha[b] &lt;= 100 &amp;&amp; senha[a]&lt;senha[b]) {
+    return true;
+  } 
+
+if (senha[a] == senha[b]) {         
+  if (a &lt; b)
+      return true;
+  else 
+    return false;
+}
+
+if(senha[b] == 0) return true;
+
+if (senha[a] &gt; 80 &amp;&amp; senha[b]&lt;20) return true;
+
+return false;
+}
+
+int max() {
+  int v = senhamax;
+  senhamax = (senhamax+1) % 100;
+  return v;
+}
+</declaration>
+	<template>
+		<name x="5" y="5">Process</name>
+		<parameter>const int[0, N-1] id</parameter>
+		<declaration>// Place local declarations here.
+int j;</declaration>
+		<location id="id0" x="-866" y="247">
+		</location>
+		<location id="id1" x="-866" y="145">
+			<name x="-849" y="119">cs</name>
+			<label kind="invariant" x="-876" y="162">y[id]&lt;=2</label>
+		</location>
+		<location id="id2" x="-866" y="34">
+		</location>
+		<location id="id3" x="-696" y="34">
+		</location>
+		<location id="id4" x="-382" y="34">
+		</location>
+		<location id="id5" x="-382" y="-161">
+		</location>
+		<location id="id6" x="-552" y="-161">
+		</location>
+		<location id="id7" x="-722" y="-161">
+		</location>
+		<location id="id8" x="-875" y="-161">
+			<name x="-900" y="-195">start</name>
+			<label kind="invariant" x="-935" y="-187">x[id]&lt;=6</label>
+		</location>
+		<init ref="id8"/>
+		<transition id="id9">
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-773" y="-85">senha[j]!=0 &amp;&amp; compare(j,id)</label>
+			<nail x="-637" y="-59"/>
+			<nail x="-714" y="-59"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-331" y="0">escolha[j]==true</label>
+			<nail x="-280" y="68"/>
+			<nail x="-289" y="17"/>
+		</transition>
+		<transition id="id11">
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="assignment" x="-416" y="-76">j=0</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-663" y="93">j&lt;N</label>
+			<nail x="-637" y="119"/>
+		</transition>
+		<transition id="id13">
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="-714" y="-161">senha[id]=max()+1</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id0"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-1019" y="26">true</label>
+			<label kind="assignment" x="-1028" y="51">x[id]=0</label>
+			<nail x="-968" y="247"/>
+			<nail x="-968" y="-161"/>
+		</transition>
+		<transition id="id15">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-866" y="196">senha[id]=0</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-867" y="68">j==N</label>
+			<label kind="assignment" x="-866" y="89">y[id]=0</label>
+		</transition>
+		<transition id="id17">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1003" y="0">senha[j]==0 || compare(j,id) ==false</label>
+			<label kind="assignment" x="-807" y="34">j=j+1</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-637" y="8">escolha[j]==false</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-535" y="-161">escolha[id]=false</label>
+		</transition>
+		<transition id="id20">
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-841" y="-187">x[id]&gt;=2</label>
+			<label kind="assignment" x="-884" y="-161">escolha[id]=true</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here
+// List one or more processes to be composed into a system.
+system Process;</system>
+	<queries>
+		<option key="--diagnostic" value="2"/>
+		<query>
+			<formula>A[] !deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-15 15:01:37 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (forall(i:pid)  Process(i).cs imply (forall(j:pid)  j!=i imply !Process(j).cs))</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-15 16:20:30 +0100">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (Process(0).cs imply not Process(1).cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-15 15:06:56 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>

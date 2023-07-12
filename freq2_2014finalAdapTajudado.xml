@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int r1=1;
+int r2=2;
+int r3=1;
+</declaration>
+	<template>
+		<name x="5" y="5">Processo</name>
+		<parameter>const int p</parameter>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-1470" y="-1113">
+			<name x="-1529" y="-1139">p2_r1_r2_r3</name>
+		</location>
+		<location id="id1" x="-1343" y="-1215">
+			<name x="-1419" y="-1249">p2_r1_r3</name>
+		</location>
+		<location id="id2" x="-1275" y="-1334">
+			<name x="-1285" y="-1368">p2_r1__</name>
+		</location>
+		<location id="id3" x="-875" y="-1513">
+			<name x="-885" y="-1547">p1_r2_r1</name>
+		</location>
+		<location id="id4" x="-1078" y="-1496">
+			<name x="-1120" y="-1539">p1_r2</name>
+		</location>
+		<location id="id5" x="-1021" y="-1189">
+			<name x="-1029" y="-1189">start</name>
+		</location>
+		<location id="id6" x="-1385" y="-1394">
+			<name x="-1395" y="-1428">p2_r1_r2</name>
+		</location>
+		<location id="id7" x="-722" y="-1147">
+			<name x="-732" y="-1181">p3_r2</name>
+		</location>
+		<location id="id8" x="-782" y="-1011">
+			<name x="-792" y="-1045">p3_r2_r3</name>
+		</location>
+		<init ref="id5"/>
+		<transition id="id9">
+			<source ref="id8"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-969" y="-1113">r2++,r3:=1</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-748" y="-1096">r3==1</label>
+			<label kind="assignment" x="-752" y="-1079">r3:=0</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id5"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-901" y="-1207">p==3&amp;&amp;r2&gt;0</label>
+			<label kind="assignment" x="-884" y="-1190">r2=r2-1</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-960" y="-1385">r2++,r1:=1</label>
+		</transition>
+		<transition id="id13">
+			<source ref="id0"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="-1283" y="-1130">r2++,r3:=1,r1:=1</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1402" y="-1172">r2&gt;0</label>
+			<label kind="assignment" x="-1428" y="-1155">r2=r2-1</label>
+		</transition>
+		<transition id="id15">
+			<source ref="id6"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-1470" y="-1283">r3==1</label>
+			<label kind="assignment" x="-1470" y="-1266">r3:=0</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id2"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-1367" y="-1398">r2&gt;0</label>
+			<label kind="assignment" x="-1367" y="-1364">r2=r2-1</label>
+		</transition>
+		<transition id="id17">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-1301" y="-1300">r3==1</label>
+			<label kind="assignment" x="-1305" y="-1278">r3:=0</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id5"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-1181" y="-1283">p==2&amp;&amp;r1==1</label>
+			<label kind="assignment" x="-1173" y="-1249">r1:=0</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-985" y="-1530">r1==1</label>
+			<label kind="assignment" x="-977" y="-1504">r1:=0</label>
+			<nail x="-901" y="-1513"/>
+		</transition>
+		<transition id="id20">
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-1139" y="-1436">p==1 &amp;&amp; r2&gt;0</label>
+			<label kind="assignment" x="-1113" y="-1394">r2=r2-1</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Processo(1);
+P2 = Processo(2);
+P3 = Processo(3);
+
+// List one or more processes to be composed into a system.
+system P1, P2, P3;</system>
+	<queries>
+		<option key="--diagnostic" value="2"/>
+		<query>
+			<formula>E&lt;&gt; deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-07-07 11:39:31 +0100">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+	</queries>
+</nta>

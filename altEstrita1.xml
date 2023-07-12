@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int[1,2] turn;</declaration>
+	<template>
+		<name x="5" y="5">Template</name>
+		<parameter>const int me</parameter>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-178" y="-59">
+			<name x="-229" y="-93">remainder</name>
+		</location>
+		<location id="id1" x="59" y="-59">
+			<name x="51" y="-93">cs</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id2">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-136" y="42">turn:=(me==1?2:1)</label>
+			<nail x="-68" y="42"/>
+		</transition>
+		<transition id="id3">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-102" y="-85">turn==me</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Template(1);
+P2 = Template(2);
+// List one or more processes to be composed into a system.
+system P1,P2;
+</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 18:51:34 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (P1.cs imply not P2.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 18:51:53 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (P2.cs imply not P1.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 18:52:01 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P2.remainder imply P2.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 18:58:10 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P1.remainder imply P1.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 19:00:14 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (P1.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 19:00:23 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt;(P2.cs)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-28 19:00:30 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>
