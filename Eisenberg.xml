@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+const int N=3; //number of processes
+
+typedef int[0,N-1] pid; //process identifier subtype
+
+typedef int[0,2] pState;
+
+broadcast chan check;
+
+const int idle=0;
+const int want_in=1;
+const int in_cs=2;
+
+pid turn = 0;
+
+pState flag[N]={idle,idle,idle};
+
+clock x[N]; //process clocks
+clock y[N]; //decoration clocks</declaration>
+	<template>
+		<name x="5" y="5">Process</name>
+		<parameter>const int[0,N-1] i</parameter>
+		<declaration>// Place local declarations here.
+int[0,N] j;</declaration>
+		<location id="id0" x="-340" y="-8">
+			<name x="-350" y="-42">Non_CS</name>
+		</location>
+		<location id="id1" x="-212" y="-8">
+			<name x="-222" y="-42">Start_Enter</name>
+		</location>
+		<location id="id2" x="-85" y="-8">
+		</location>
+		<location id="id3" x="-144" y="-161">
+			<name x="-154" y="-195">Busy_Wait</name>
+		</location>
+		<location id="id4" x="8" y="-127">
+		</location>
+		<location id="id5" x="68" y="0">
+			<name x="58" y="-34">End_Enter</name>
+		</location>
+		<location id="id6" x="178" y="0">
+		</location>
+		<location id="id7" x="178" y="-144">
+			<name x="168" y="-178">In_CS</name>
+			<label kind="invariant" x="110" y="-144">x[i]&lt;=6</label>
+		</location>
+		<location id="id8" x="399" y="-144">
+			<name x="416" y="-152">Exiting_CS</name>
+		</location>
+		<location id="id9" x="399" y="0">
+		</location>
+		<init ref="id0"/>
+		<transition id="id10">
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-85" y="-221">(j&lt;N)&amp;&amp;(j==i||flag[j]!=in_cs)</label>
+			<label kind="assignment" x="0" y="-238">j++</label>
+			<nail x="-17" y="-187"/>
+			<nail x="68" y="-187"/>
+		</transition>
+		<transition id="id11">
+			<source ref="id8"/>
+			<target ref="id8"/>
+			<label kind="guard" x="375" y="-220">flag[j]==idle</label>
+			<label kind="assignment" x="375" y="-186">j=(j+1)%N</label>
+			<nail x="357" y="-186"/>
+			<nail x="433" y="-186"/>
+		</transition>
+		<transition id="id12">
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-246" y="102">!((j&gt;=N) &amp;&amp; (turn==i || flag[turn]==idle))</label>
+			<nail x="68" y="102"/>
+			<nail x="-212" y="102"/>
+		</transition>
+		<transition id="id13">
+			<source ref="id9"/>
+			<target ref="id0"/>
+			<nail x="399" y="153"/>
+			<nail x="-340" y="153"/>
+		</transition>
+		<transition id="id14">
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="365" y="-102">flag[j]!=idle</label>
+			<label kind="assignment" x="408" y="-76">turn=j,
+flag[i]=idle</label>
+		</transition>
+		<transition id="id15">
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="238" y="-161">x[i]&gt;=2</label>
+			<label kind="assignment" x="212" y="-136">j=(turn+1)%N</label>
+		</transition>
+		<transition id="id16">
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="187" y="-68">x[i]=0</label>
+		</transition>
+		<transition id="id17">
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="85" y="25">(j&gt;=N) &amp;&amp; 
+(turn==i||
+flag[turn]==idle)</label>
+			<label kind="assignment" x="86" y="0">turn=i</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="25" y="-110">!((j&lt;N)&amp;&amp;
+(j==i||
+flag[j]!=in_cs))</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-34" y="-68">j==i</label>
+			<label kind="assignment" x="-76" y="-68">j=0,
+flag[i]=in_cs</label>
+		</transition>
+		<transition id="id20">
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-144" y="42">j!=i &amp;&amp; flag[j]==idle</label>
+			<label kind="assignment" x="-109" y="68">j=(j+1)%N</label>
+			<nail x="-127" y="68"/>
+			<nail x="-51" y="68"/>
+		</transition>
+		<transition id="id21">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-272" y="-127">j=turn</label>
+			<nail x="-229" y="-102"/>
+		</transition>
+		<transition id="id22">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-161" y="-127">j!=i &amp;&amp;
+flag[j]!=idle</label>
+		</transition>
+		<transition id="id23">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-195" y="-8">flag[i]=want_in,
+j=turn</label>
+		</transition>
+		<transition id="id24">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-297" y="-8">y[i]=0</label>
+		</transition>
+	</template>
+	<system>// List one or more processes to be composed into a system.
+
+system Process;
+</system>
+	<queries>
+		<option key="--diagnostic" value="1"/>
+		<query>
+			<formula>A[] !deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-05-23 15:23:31 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Process(0).In_CS+Process(1).In_CS+Process(2).In_CS &gt; 1</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2023-05-23 15:23:31 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] (forall(i:pid) Process(i).In_CS imply (forall(j : pid) j!=i imply !Process(j).In_CS)) </formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-05-23 15:23:31 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] Process(0).End_Enter imply y[0]&gt;=0</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-05-23 15:23:31 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] Process(0).End_Enter imply y[0]&lt;=(N-1)*6</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2023-05-23 15:23:33 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>Process(0).Start_Enter --&gt; Process(0).In_CS</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2023-05-23 15:23:33 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+		<query>
+			<formula>Process(0).Start_Enter --&gt; Process(0).Non_CS</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2023-05-23 15:23:34 +0100">
+				<option key="--diagnostic" value="1"/>
+			</result>
+		</query>
+	</queries>
+</nta>
