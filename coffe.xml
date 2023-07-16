@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock t;
+chan insert_coin,publish,brewing,complain,dispense,extract,time_out;
+broadcast chan take_coffee;</declaration>
+	<template>
+		<name x="5" y="5">Person</name>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id0" x="-510" y="-221">
+			<name x="-520" y="-255">begin</name>
+		</location>
+		<location id="id1" x="-178" y="-221">
+			<name x="-188" y="-255">waiting</name>
+			<label kind="invariant" x="-188" y="-204">t&lt;=2</label>
+		</location>
+		<location id="id2" x="144" y="-221">
+			<name x="134" y="-255">coffee_check</name>
+		</location>
+		<location id="id3" x="-510" y="59">
+			<name x="-520" y="25">coffee_taken</name>
+		</location>
+		<location id="id4" x="144" y="59">
+			<name x="134" y="25">checkout</name>
+		</location>
+		<location id="id5" x="-170" y="263">
+			<name x="-180" y="229">idle</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-510" y="-98">publish!</label>
+			<label kind="assignment" x="-510" y="-81">t:=8</label>
+		</transition>
+		<transition id="id7">
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-442" y="238">complain?</label>
+			<nail x="-511" y="263"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-8" y="263">t&gt;3</label>
+			<label kind="synchronisation" x="144" y="178">time_out?</label>
+			<nail x="144" y="263"/>
+		</transition>
+		<transition id="id9">
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-221" y="34">take_coffee!</label>
+			<label kind="assignment" x="-492" y="59">t:=3</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="144" y="-98">dispense?</label>
+			<label kind="assignment" x="144" y="-81">t:=2</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-51" y="-238">brewing?</label>
+			<label kind="assignment" x="-102" y="-221">t:=3</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-416" y="-238">insert_coin!</label>
+			<label kind="assignment" x="-492" y="-221">t:=0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Machine</name>
+		<declaration>clock y;</declaration>
+		<location id="id13" x="-484" y="-102">
+			<name x="-494" y="-136">begin</name>
+		</location>
+		<location id="id14" x="-119" y="-102">
+			<name x="-178" y="-136">verification</name>
+			<label kind="invariant" x="-129" y="-85">t&lt;=3</label>
+		</location>
+		<location id="id15" x="238" y="-102">
+			<name x="228" y="-136">coffee_ready</name>
+		</location>
+		<location id="id16" x="595" y="42">
+			<name x="612" y="34">timed_out</name>
+		</location>
+		<location id="id17" x="238" y="187">
+			<name x="221" y="204">wait</name>
+		</location>
+		<init ref="id13"/>
+		<transition id="id18">
+			<source ref="id17"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-187" y="195">take_coffee?</label>
+			<label kind="assignment" x="-391" y="187">t:=3</label>
+			<nail x="-484" y="187"/>
+		</transition>
+		<transition id="id19">
+			<source ref="id16"/>
+			<target ref="id13"/>
+			<nail x="586" y="-255"/>
+			<nail x="-484" y="-255"/>
+		</transition>
+		<transition id="id20">
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="guard" x="433" y="187">t&gt;3</label>
+			<label kind="synchronisation" x="408" y="204">time_out!</label>
+			<nail x="595" y="187"/>
+		</transition>
+		<transition id="id21">
+			<source ref="id15"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="238" y="25">dispense!</label>
+			<label kind="assignment" x="238" y="42">t:=2</label>
+		</transition>
+		<transition id="id22">
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="17" y="-119">brewing!</label>
+			<label kind="assignment" x="76" y="-102">t:=3</label>
+		</transition>
+		<transition id="id23">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-357" y="-119">insert_coin?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Observer</name>
+		<declaration>clock z;</declaration>
+		<location id="id24" x="-297" y="-119">
+			<name x="-306" y="-102">observe</name>
+		</location>
+		<location id="id25" x="-8" y="-119">
+			<name x="-18" y="-153">complaining</name>
+		</location>
+		<init ref="id24"/>
+		<transition id="id26">
+			<source ref="id25"/>
+			<target ref="id24"/>
+			<nail x="-17" y="-34"/>
+			<nail x="-272" y="-51"/>
+		</transition>
+		<transition id="id27">
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="guard" x="-93" y="-136">t&gt;8</label>
+			<label kind="synchronisation" x="-272" y="-144">complain!</label>
+		</transition>
+		<transition id="id28">
+			<source ref="id24"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-425" y="-170">publish?</label>
+			<label kind="assignment" x="-391" y="-102">t:=8</label>
+			<nail x="-314" y="-59"/>
+			<nail x="-374" y="-136"/>
+			<nail x="-314" y="-187"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+//Process = Template();
+// List one or more processes to be composed into a system.
+system Person,Machine,Observer;
+</system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; Machine.timed_out</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-03-13 15:53:05 +0000">
+			</result>
+		</query>
+		<query>
+			<formula>A[] (Person.coffee_taken and Machine.timed_out)</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2023-03-13 15:56:47 +0000">
+			</result>
+		</query>
+	</queries>
+</nta>
