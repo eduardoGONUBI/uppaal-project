@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+int r1=0;
+int r2[2]={0,0};
+int r3=0;
+</declaration>
+	<template>
+		<name x="5" y="5">Processo</name>
+		<parameter>const int p</parameter>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id0" x="-417" y="-866">
+			<name x="-383" y="-892">p3_r3</name>
+		</location>
+		<location id="id1" x="-400" y="-994">
+			<name x="-410" y="-1028">p3_r2_1_r3</name>
+		</location>
+		<location id="id2" x="-392" y="-1113">
+			<name x="-402" y="-1147">p3_r2_1</name>
+		</location>
+		<location id="id3" x="-528" y="-1189">
+			<name x="-538" y="-1223">p3_r3_</name>
+		</location>
+		<location id="id4" x="-545" y="-1283">
+			<name x="-555" y="-1317">p3_r2_0_r3</name>
+		</location>
+		<location id="id5" x="-579" y="-1368">
+			<name x="-589" y="-1402">p3_r2_0</name>
+		</location>
+		<location id="id6" x="-715" y="-917">
+			<name x="-732" y="-892">p2_r2_1</name>
+		</location>
+		<location id="id7" x="-851" y="-875">
+			<name x="-860" y="-858">p2_r1_r2_1</name>
+		</location>
+		<location id="id8" x="-1004" y="-841">
+			<name x="-1046" y="-824">p2_r1</name>
+		</location>
+		<location id="id9" x="-1165" y="-875">
+			<name x="-1175" y="-909">p2_r2_0</name>
+		</location>
+		<location id="id10" x="-1293" y="-925">
+			<name x="-1303" y="-959">p2_r1_r2_0</name>
+		</location>
+		<location id="id11" x="-1386" y="-1011">
+			<name x="-1396" y="-1045">p2_r1_</name>
+		</location>
+		<location id="id12" x="-1454" y="-1155">
+			<name x="-1513" y="-1181">p2_r3</name>
+		</location>
+		<location id="id13" x="-1437" y="-1308">
+			<name x="-1513" y="-1342">p2_r1_r3</name>
+		</location>
+		<location id="id14" x="-1377" y="-1419">
+			<name x="-1387" y="-1453">p2_r1__</name>
+		</location>
+		<location id="id15" x="-647" y="-1436">
+			<name x="-630" y="-1461">p1_r1</name>
+		</location>
+		<location id="id16" x="-749" y="-1512">
+			<name x="-740" y="-1546">p1_r2_1_r1</name>
+		</location>
+		<location id="id17" x="-842" y="-1572">
+			<name x="-852" y="-1606">p1_r2_1</name>
+		</location>
+		<location id="id18" x="-995" y="-1580">
+			<name x="-1005" y="-1606">p1_r1_</name>
+		</location>
+		<location id="id19" x="-1123" y="-1589">
+			<name x="-1133" y="-1623">p1_r2_0_r1</name>
+		</location>
+		<location id="id20" x="-1258" y="-1572">
+			<name x="-1300" y="-1615">p1_r2_0</name>
+		</location>
+		<location id="id21" x="-1021" y="-1189">
+			<name x="-1029" y="-1189">start</name>
+		</location>
+		<init ref="id21"/>
+		<transition id="id22">
+			<source ref="id4"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-749" y="-1266">r2[0]:=0,r3:=0</label>
+		</transition>
+		<transition id="id23">
+			<source ref="id1"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-664" y="-1070">r3:=0,r2[1]:=0</label>
+		</transition>
+		<transition id="id24">
+			<source ref="id7"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-961" y="-977">r1:=0,r2[1]:=0</label>
+		</transition>
+		<transition id="id25">
+			<source ref="id10"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-1250" y="-1036">r1:=0,r2[0]:=0</label>
+		</transition>
+		<transition id="id26">
+			<source ref="id13"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-1352" y="-1283">r3:=0,r1:=0</label>
+		</transition>
+		<transition id="id27">
+			<source ref="id19"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-1156" y="-1461">r2[0]:=0,r1:=0</label>
+		</transition>
+		<transition id="id28">
+			<source ref="id16"/>
+			<target ref="id21"/>
+			<label kind="assignment" x="-902" y="-1410">r2[1]:=0,r1:=0</label>
+		</transition>
+		<transition id="id29">
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-562" y="-1359">r3==0</label>
+			<label kind="assignment" x="-562" y="-1342">r3:=1</label>
+		</transition>
+		<transition id="id30">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-536" y="-1257">r2[0]==0</label>
+			<label kind="assignment" x="-528" y="-1240">r2[0]:=1</label>
+		</transition>
+		<transition id="id31">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-396" y="-1087">r3==0</label>
+			<label kind="assignment" x="-392" y="-1062">r3:=1</label>
+		</transition>
+		<transition id="id32">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-409" y="-951">r2[1]==0</label>
+			<label kind="assignment" x="-409" y="-930">r2[1]:=1</label>
+		</transition>
+		<transition id="id33">
+			<source ref="id21"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-689" y="-994">p==3 &amp;&amp; r3 ==0</label>
+			<label kind="assignment" x="-647" y="-985">r3:=1</label>
+		</transition>
+		<transition id="id34">
+			<source ref="id21"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-664" y="-1147">p==3 &amp;&amp; r2[1] ==0</label>
+			<label kind="assignment" x="-613" y="-1138">r2[1]:=1</label>
+		</transition>
+		<transition id="id35">
+			<source ref="id21"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-723" y="-1206">p==3 &amp;&amp; r3==0</label>
+			<label kind="assignment" x="-698" y="-1189">r3:=1</label>
+		</transition>
+		<transition id="id36">
+			<source ref="id21"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-773" y="-1334">p==3 &amp;&amp; r2[0]==0</label>
+			<label kind="assignment" x="-749" y="-1317">r2[0]:=1</label>
+		</transition>
+		<transition id="id37">
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-800" y="-917">r1==0</label>
+			<label kind="assignment" x="-800" y="-900">r1:=1</label>
+		</transition>
+		<transition id="id38">
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-978" y="-875">r2[1]==0</label>
+			<label kind="assignment" x="-986" y="-858">r2[1]:=1</label>
+		</transition>
+		<transition id="id39">
+			<source ref="id21"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-927" y="-1053">p==2 &amp;&amp; r2[1]==0</label>
+			<label kind="assignment" x="-876" y="-1036">r2[1]:=1</label>
+		</transition>
+		<transition id="id40">
+			<source ref="id21"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-1063" y="-1036">p==2&amp;&amp;r1==0</label>
+			<label kind="assignment" x="-1046" y="-1011">r1:=1</label>
+		</transition>
+		<transition id="id41">
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1275" y="-917">r1==0</label>
+			<label kind="assignment" x="-1275" y="-900">r1:=1</label>
+		</transition>
+		<transition id="id42">
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-1368" y="-1002">r2[0]==0</label>
+			<label kind="assignment" x="-1360" y="-985">r2[0]:=1</label>
+		</transition>
+		<transition id="id43">
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-1445" y="-1249">r1==0</label>
+			<label kind="assignment" x="-1445" y="-1231">r1:=1</label>
+		</transition>
+		<transition id="id44">
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-1403" y="-1385">r3==0</label>
+			<label kind="assignment" x="-1407" y="-1363">r3:=1</label>
+		</transition>
+		<transition id="id45">
+			<source ref="id21"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-1173" y="-968">p==2&amp;&amp;r2[0]==0</label>
+			<label kind="assignment" x="-1165" y="-951">r2[0]:=1</label>
+		</transition>
+		<transition id="id46">
+			<source ref="id21"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-1343" y="-1087">p==2&amp;&amp;r1==0</label>
+			<label kind="assignment" x="-1318" y="-1070">r1:=1</label>
+		</transition>
+		<transition id="id47">
+			<source ref="id21"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-1386" y="-1172">p==2&amp;&amp;r3==0</label>
+			<label kind="assignment" x="-1369" y="-1155">r3:=1</label>
+		</transition>
+		<transition id="id48">
+			<source ref="id21"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-944" y="-1495">p==1 &amp;&amp; r2[1]==0</label>
+			<label kind="assignment" x="-936" y="-1478">r2[1]:=1</label>
+		</transition>
+		<transition id="id49">
+			<source ref="id21"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-1284" y="-1376">p==2&amp;&amp;r1==0</label>
+			<label kind="assignment" x="-1267" y="-1359">r1:=1</label>
+		</transition>
+		<transition id="id50">
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-817" y="-1572">r1==0</label>
+			<label kind="assignment" x="-808" y="-1555">r1:=1</label>
+		</transition>
+		<transition id="id51">
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-723" y="-1495">r2[1]==0</label>
+			<label kind="assignment" x="-731" y="-1474">r2[1]:=1</label>
+		</transition>
+		<transition id="id52">
+			<source ref="id21"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-800" y="-1393">p ==1 &amp;&amp; r1 ==0</label>
+			<label kind="assignment" x="-766" y="-1376">r1:=1</label>
+		</transition>
+		<transition id="id53">
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="guard" x="-1089" y="-1606">r2[0]==0</label>
+			<label kind="assignment" x="-1089" y="-1580">r2[0]:=1</label>
+		</transition>
+		<transition id="id54">
+			<source ref="id20"/>
+			<target ref="id19"/>
+			<label kind="guard" x="-1224" y="-1606">r1==0</label>
+			<label kind="assignment" x="-1216" y="-1580">r1:=1</label>
+			<nail x="-1140" y="-1589"/>
+		</transition>
+		<transition id="id55">
+			<source ref="id21"/>
+			<target ref="id18"/>
+			<label kind="guard" x="-1055" y="-1512">p==1 &amp;&amp; r1==0</label>
+			<label kind="assignment" x="-1004" y="-1495">r1:=1</label>
+		</transition>
+		<transition id="id56">
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="guard" x="-1284" y="-1512">p==1 &amp;&amp; r2[0]==0</label>
+			<label kind="assignment" x="-1250" y="-1487">r2[0]:=1</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Processo(1);
+P2 = Processo(2);
+P3 = Processo(3);
+
+// List one or more processes to be composed into a system.
+system P1, P2, P3;</system>
+	<queries>
+		<option key="--diagnostic" value="2"/>
+		<query>
+			<formula>E&lt;&gt; deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2023-06-27 23:15:53 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>
