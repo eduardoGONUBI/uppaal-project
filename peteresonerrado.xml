@@ -9,37 +9,44 @@ int giveup;</declaration>
 		<parameter>const int pid</parameter>
 		<declaration>// Place local declarations here.
 </declaration>
-		<location id="id0" x="-76" y="-102">
+		<location id="id0" x="-170" y="-136">
+			<name x="-180" y="-170">want</name>
 		</location>
-		<location id="id1" x="-272" y="-102">
-			<name x="-282" y="-136">start</name>
+		<location id="id1" x="-459" y="-136">
+			<name x="-469" y="-170">idle</name>
 		</location>
-		<location id="id2" x="-76" y="8">
+		<location id="id2" x="-170" y="-25">
+			<name x="-180" y="-59">wait</name>
 		</location>
-		<location id="id3" x="-272" y="8">
-			<name x="-282" y="-26">cs</name>
+		<location id="id3" x="-459" y="-25">
+			<name x="-469" y="-59">cs</name>
 		</location>
 		<init ref="id1"/>
 		<transition id="id4">
-			<source ref="id3"/>
-			<target ref="id1"/>
-			<label kind="assignment" x="-399" y="-59">interested[pid]=false</label>
-		</transition>
-		<transition id="id5">
 			<source ref="id2"/>
 			<target ref="id3"/>
-			<label kind="guard" x="-306" y="25">giveup!=pid &amp;&amp; interested[1-pid]==true</label>
-			<label kind="assignment" x="-229" y="42">giveup=pid</label>
+			<label kind="guard" x="-348" y="51">giveup!=pid</label>
+			<nail x="-314" y="42"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-535" y="-93">interested[pid]=false</label>
 		</transition>
 		<transition id="id6">
-			<source ref="id0"/>
-			<target ref="id2"/>
-			<label kind="assignment" x="-76" y="-59">giveup=pid</label>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-416" y="-51">interested[1-pid]==true</label>
 		</transition>
 		<transition id="id7">
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-212" y="-93">giveup=pid</label>
+		</transition>
+		<transition id="id8">
 			<source ref="id1"/>
 			<target ref="id0"/>
-			<label kind="assignment" x="-246" y="-127">interested[pid]=true</label>
+			<label kind="assignment" x="-382" y="-161">interested[pid]=true</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
@@ -52,13 +59,13 @@ system Process,Process2;
 		<query>
 			<formula>A[] not deadlock</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2023-07-16 01:40:25 +0100">
+			<result outcome="success" type="quality" timestamp="2023-07-17 17:16:24 +0100">
 			</result>
 		</query>
 		<query>
 			<formula>E&lt;&gt; (Process.cs &amp;&amp; Process2.cs)</formula>
 			<comment/>
-			<result outcome="success" type="quality" timestamp="2023-07-16 02:00:00 +0100">
+			<result outcome="success" type="quality" timestamp="2023-07-17 17:16:27 +0100">
 			</result>
 		</query>
 	</queries>
